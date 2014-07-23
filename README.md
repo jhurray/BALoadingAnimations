@@ -40,6 +40,23 @@ Add outside an async call and remove after that operation is completed.
             });
          });
 
+** Or, if a function already is async and has a callback ** just use the add and remove functionality like in the example below:
+
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:url]];
+    __weak id weakSelf = self;
+    
+    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeDefault toView:self.view];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        [BALoadingAnimationConfig setMessage:@"handling response..."];
+        id stuff = [weakSelf doSomethingWithResponse:response];
+        [weakSelf doMoreWithStuff:stuff];
+        [BALoadingAnimation removeBALoadingAnimationFromView:(UIView *)superView];
+    }];
+
 
 Blocks
 --------

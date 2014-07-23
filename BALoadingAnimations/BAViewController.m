@@ -95,8 +95,26 @@
         });
      });
      
-     
      */
+    
+    /**************************    OR DO THIS    **********************************/
+    
+    /*
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:url]];
+    __weak id weakSelf = self;
+    
+    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeDefault toView:self.view];
+    
+    [NSURLConnection sendAsynchronousRequest:request queue:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *connectionError) {
+        
+        [BALoadingAnimationConfig setMessage:@"handling response..."];
+        id stuff = [weakSelf doSomethingWithResponse:response];
+        [weakSelf doMoreWithStuff:stuff];
+        [BALoadingAnimation removeBALoadingAnimationFromView:(UIView *)superView];
+    }];
+    */
 }
 
 -(void)start
