@@ -7,9 +7,9 @@
 //
 
 #define DEFAULT_MESSAGE @"Loading..."
-#define DEFAULT_PRIMARY_COLOR [UIColor grayColor]
+#define DEFAULT_PRIMARY_COLOR [UIColor colorWithWhite:0.197 alpha:0.800]
 #define DEFAULT_SECONDARY_COLOR [UIColor whiteColor]
-#define DEFAULT_TINT_COLOR [UIColor redColor]
+#define DEFAULT_TINT_COLOR [UIColor colorWithRed:0.199 green:0.714 blue:0.850 alpha:1.000]
 #define DEFAULT_FONT [UIFont systemFontOfSize:18]
 
 
@@ -19,7 +19,7 @@
 
 @property (nonatomic) NSString *_message;
 @property (nonatomic) UIColor *_primaryColor;
-@property (nonatomic) UIColor *_secondaryColor;
+@property (nonatomic) UIColor *_secondaryColor; 
 @property (nonatomic) UIColor *_tintColor;
 @property (nonatomic) UIFont *_font;
 @property (nonatomic) BOOL _showsMessage;

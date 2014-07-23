@@ -18,9 +18,29 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
-    [self.view setBackgroundColor:[UIColor blueColor]];
+    [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setupButtons];
-    [BALoadingAnimationConfig setMessageShown:TRUE];
+}
+
+-(NSString *)makeBigRequestWithURL:(NSString *)url
+{
+    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
+    [request setHTTPMethod:@"GET"];
+    [request setURL:[NSURL URLWithString:url]];
+    
+    NSError *error = [[NSError alloc] init];
+    NSHTTPURLResponse *responseCode = nil;
+    
+    NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
+    
+    if([responseCode statusCode] != 200){
+        NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
+        return nil;
+    }
+    
+    NSString *str = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
+    
+    return str;
 }
 
 -(void)setupButtons
@@ -38,15 +58,65 @@
     [end setFrame:CGRectMake(self.view.frame.size.width/2, self.view.frame.size.height-80, self.view.frame.size.width/2, 80)];
     [end addTarget:self action:@selector(end) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:end];
+    
+    UIButton *req = [UIButton buttonWithType:UIButtonTypeCustom];
+    [req setBackgroundColor:[UIColor colorWithRed:0.168 green:0.604 blue:1.000 alpha:1.000]];
+    [req setTitle:@"Make big request" forState:UIControlStateNormal];
+    [req setFrame:CGRectMake(0, self.view.frame.size.height-130, self.view.frame.size.width, 50)];
+    [req addTarget:self action:@selector(bigRequest) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:req];
+}
+
+-(void)bigRequest
+{
+    // run large request asyncronously with BALoadingAnimation
+    
+    __block NSString *results = @"";
+    NSString *url = @"http://www.vacasso.com/api/city/fetchall";
+    
+    [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeDefault onView:self.view whileExecuting:^{
+        results = [self makeBigRequestWithURL:url];
+    } withCompletion:^{
+        NSLog(@"\n\n SUCCESS!!! \n\n");
+        NSLog(@"%@", results);
+    }];
+    
+    /**************************    EQUIVILENT CODE    **********************************/
+    
+    /*
+     [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeDefault whileSelector:@selector(makeBigRequestWithURL:) withTarget:self andObject:url runsOnView:self.view withCallback:^(id object) {
+     NSLog(@"\n\n WORKED!!! \n\n");
+     NSLog(@"%@", (NSString *)object);
+     }];
+     */
+    
+    /**************************   ALSO  EQUIVILENT CODE    **********************************/
+    
+    /*
+     [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeDefault toView:self.view];
+     dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+     
+     results = [self makeBigRequestWithURL:url];
+     
+     dispatch_async(dispatch_get_main_queue(), ^{
+     [self removeBALoadingAnimationFromView:self.view];
+     
+     });
+     });
+     
+     
+     */
 }
 
 -(void)start
 {
-    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypePulse ToView:self.view];
+    // Only necessary if wishing to add views indefinitely and remove with a button touch
+    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeSpinner toView:self.view];
 }
 
 -(void)end
 {
+    // Only necessary if wishing to add views indefinitely and remove with a button touch
     [BALoadingAnimation removeBALoadingAnimationFromView:self.view];
 }
 

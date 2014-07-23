@@ -9,10 +9,10 @@
 /*
  
  TO-DO:
-    - git 
     - better interface
     - build wave animation
-    - build in/out animations
+    - build in/out animations (config)
+    - cocoa pods
 */
 
 #import "BALoadingAnimationConfig.h"
@@ -30,36 +30,64 @@ typedef NS_ENUM(NSInteger, BALoadingAnimationType)
 
 @class BALoadingAnimation;
 
-@protocol BALoadingAnimationDelegate <NSObject>
-
--(void)loadingAnimationDidStart:(BALoadingAnimation *)loadingAnimation;
--(void)loadingAnimationDidStop:(BALoadingAnimation *)loadingAnimation;
-
-@end
+typedef void (^BACompletionBlock)(void);
+typedef void (^BACompletionReturnBlock)(id);
+typedef void (^BAExecutionBlock)(void);
 
 @interface BALoadingAnimation : UIView
 
-/*
- PUBLIC MEMBERS
- */
-@property (nonatomic, weak) id<BALoadingAnimationDelegate> delegate;
+// Adds a loading animation to a view.
+// Should be called before an async operation.
++(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView;
 
 
-/*
-    PUBLIC METHODS
-*/
-
-// instance methods
+// Adds a loading animation to a view with custom styling.
+// Should be called before an async operation.
++(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config;
 
 
+// Adds a loading animation to the view while a selector is being exectuted asyncronously.
+// Removes loading animation when async operation is finished executing.
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView;
 
-// class methods
 
-+(void)addBALoadingAnimation:(BALoadingAnimationType)animationType ToView:(UIView *)superView;
+// Adds a loading animation to the view while a selector is being exectuted asyncronously.
+// Removes loading animation when async operation is finished executing.
+// Supports custom styling.
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config;
 
-+(void)addBALoadingAnimation:(BALoadingAnimationType)animationType ToView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config;
 
+// Adds a loading animation to the view while code in execution block is exectuted asyncronously.
+// Removes loading animation when async operation is finished executing.
+// Return values from selector passed through completion block.
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withCompletion:(BACompletionReturnBlock)completion;
+
+
+// Adds a loading animation to the view while a selector is being exectuted asyncronously.
+// Removes loading animation when async operation is finished executing.
+// Return values from selector passed through completion block.
+// Supports custom styling.
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config andCompletion:(BACompletionReturnBlock)completion;
+
+
+// Adds a loading animation to the view while a selector is being exectuted asyncronously.
+// Removes loading animation when async operation is finished executing.
+// Return values from selector passed through completion block.
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType onView:(UIView *)superView whileExecuting:(BAExecutionBlock)work withCompletion:(BACompletionBlock)completion;
+
+
+// Adds a loading animation to the view while code in execution block is being exectuted asyncronously.
+// Removes loading animation when async operation is finished executing.
+// Return values from selector passed through completion block.
+// Supports custom styling.
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType onView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config whileExecuting:(BAExecutionBlock)work withCompletion:(BACompletionBlock)completion;
+
+
+// Removes all BAloadingAnimations from the view.
+// Should only be used with [BALoadingAnimation addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView].
+// Should only be called asyncronously on the main queue.
 +(void)removeBALoadingAnimationFromView:(UIView *)superView;
+
 
 
 @end

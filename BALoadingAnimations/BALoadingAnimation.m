@@ -54,12 +54,12 @@
         // animation view
         [self addSubview:animationView];
         
-        // now set colors!!!!
+        // now set colors
         [self setBackgroundColor:config.primaryColor];
         // set layer properties
         [self.layer setCornerRadius:8.0];
         
-        // get a shadow!
+        // get a shadow
         self.layer.shadowOffset = CGSizeMake(2.5, 2.5);
         self.layer.shadowColor = [UIColor blackColor].CGColor;
         self.layer.shadowOpacity = 0.8;        
@@ -70,16 +70,69 @@
 
 
 // -----------------------------------  CLASS METHODS  --------------------------------- //
-+(void)addBALoadingAnimation:(BALoadingAnimationType)animationType ToView:(UIView *)superView
+
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView
+{
+    BALoadingAnimationConfig *config = [BALoadingAnimationConfig sharedInstance];
+    [BALoadingAnimation runBALoadingAnimation:animationType whileSelector:selector withTarget:target andObject:object runsOnView:superView withStyling:config];
+}
+
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config
+{
+    [BALoadingAnimation runBALoadingAnimation:animationType whileSelector:selector withTarget:target andObject:object runsOnView:superView withCompletion:nil];
+}
+
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config andCompletion:(BACompletionReturnBlock)completion
+{
+    [self addBALoadingAnimation:animationType toView:superView withStyling:config];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Do something...
+        #pragma clang diagnostic push
+        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
+        id obj = [target performSelector:selector withObject:object];
+        #pragma clang diagnostic pop
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self removeBALoadingAnimationFromView:superView];
+            completion(obj);
+        });
+    });
+}
+
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withCompletion:(BACompletionReturnBlock)completion
+{
+    BALoadingAnimationConfig *config = [BALoadingAnimationConfig sharedInstance];
+    [self runBALoadingAnimation:animationType whileSelector:selector withTarget:target andObject:object runsOnView:superView withStyling:config andCompletion:completion];
+}
+
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType onView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config whileExecuting:(BAExecutionBlock)work withCompletion:(BACompletionBlock)completion
+{
+    [self addBALoadingAnimation:animationType toView:superView withStyling:config];
+    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
+        // Do something...
+        work();
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self removeBALoadingAnimationFromView:superView];
+            completion();
+        });
+    });
+}
+
++(void)runBALoadingAnimation:(BALoadingAnimationType)animationType onView:(UIView *)superView whileExecuting:(BAExecutionBlock)work withCompletion:(BACompletionBlock)completion
+{
+    BALoadingAnimationConfig *config = [BALoadingAnimationConfig sharedInstance];
+    [BALoadingAnimation runBALoadingAnimation:animationType onView:superView withStyling:config whileExecuting:work withCompletion:completion];
+}
+
++(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView
 {
     // ensure singleton is created
     BALoadingAnimationConfig *config = [BALoadingAnimationConfig sharedInstance];
-    [BALoadingAnimation addBALoadingAnimation:animationType ToView:superView withStyling:config];
+    [BALoadingAnimation addBALoadingAnimation:animationType toView:superView withStyling:config];
 }
 
 
-
-+(void)addBALoadingAnimation:(BALoadingAnimationType)animationType ToView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config
++(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config
 {
     // get the correct animationview
     BAAnimationView *animationView = [BALoadingAnimation animationViewForAnimationType: animationType];
@@ -169,7 +222,7 @@
 +(void)removeBALoadingAnimationFromView:(UIView *)superView
 {
     for (UIView *subview in superView.subviews) {
-        if([BALoadingAnimation class] == subview.class)
+        if([subview isKindOfClass:[BALoadingAnimation class]])
         {
             BALoadingAnimation *loadingAnimation = ((BALoadingAnimation *)subview);
             [loadingAnimation.animationView stopAnimation];
