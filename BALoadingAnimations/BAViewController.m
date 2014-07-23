@@ -98,10 +98,10 @@
      
      results = [self makeBigRequestWithURL:url];
      
-     dispatch_async(dispatch_get_main_queue(), ^{
-     [self removeBALoadingAnimationFromView:self.view];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self removeBALoadingAnimationFromView:self.view];
      
-     });
+        });
      });
      
      
