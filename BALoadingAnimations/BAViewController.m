@@ -35,7 +35,7 @@
     
     if([responseCode statusCode] != 200){
         NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
-        return nil;
+        //return nil;
     }
     
     NSString *str = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
@@ -82,15 +82,6 @@
     }];
     
     /**************************    EQUIVILENT CODE    **********************************/
-    
-    /*
-     [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeDefault whileSelector:@selector(makeBigRequestWithURL:) withTarget:self andObject:url runsOnView:self.view withCallback:^(id object) {
-     NSLog(@"\n\n WORKED!!! \n\n");
-     NSLog(@"%@", (NSString *)object);
-     }];
-     */
-    
-    /**************************   ALSO  EQUIVILENT CODE    **********************************/
     
     /*
      [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeDefault toView:self.view];

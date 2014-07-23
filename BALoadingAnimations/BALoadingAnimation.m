@@ -71,39 +71,6 @@
 
 // -----------------------------------  CLASS METHODS  --------------------------------- //
 
-+(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView
-{
-    BALoadingAnimationConfig *config = [BALoadingAnimationConfig sharedInstance];
-    [BALoadingAnimation runBALoadingAnimation:animationType whileSelector:selector withTarget:target andObject:object runsOnView:superView withStyling:config];
-}
-
-+(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config
-{
-    [BALoadingAnimation runBALoadingAnimation:animationType whileSelector:selector withTarget:target andObject:object runsOnView:superView withCompletion:nil];
-}
-
-+(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config andCompletion:(BACompletionReturnBlock)completion
-{
-    [self addBALoadingAnimation:animationType toView:superView withStyling:config];
-    dispatch_async(dispatch_get_global_queue( DISPATCH_QUEUE_PRIORITY_LOW, 0), ^{
-        // Do something...
-        #pragma clang diagnostic push
-        #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
-        id obj = [target performSelector:selector withObject:object];
-        #pragma clang diagnostic pop
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self removeBALoadingAnimationFromView:superView];
-            completion(obj);
-        });
-    });
-}
-
-+(void)runBALoadingAnimation:(BALoadingAnimationType)animationType whileSelector:(SEL)selector withTarget:(id)target andObject:(id)object runsOnView:(UIView *)superView withCompletion:(BACompletionReturnBlock)completion
-{
-    BALoadingAnimationConfig *config = [BALoadingAnimationConfig sharedInstance];
-    [self runBALoadingAnimation:animationType whileSelector:selector withTarget:target andObject:object runsOnView:superView withStyling:config andCompletion:completion];
-}
 
 +(void)runBALoadingAnimation:(BALoadingAnimationType)animationType onView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config whileExecuting:(BAExecutionBlock)work withCompletion:(BACompletionBlock)completion
 {

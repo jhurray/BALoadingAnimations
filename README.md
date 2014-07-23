@@ -15,9 +15,9 @@ Many loading animations:
 ..*Wave
 ..*Pulse
 
-BALoadingAnimationConfig class methods change a singleton, which is used as the default configuration for all BALoadingAnimations
+BALoadingAnimationConfig class methods change a singleton, which is used as the default configuration for all BALoadingAnimations.
 
-Use the  class methods to style the loading animations.
+Use BALoadingAnimationConfig the class methods to style the loading animations.
 
 **OR...**
 
@@ -41,23 +41,6 @@ Add outside an async call and remove after that operation is completed.
          });
 
 
-Selectors
-----------
-Wrap any selector in a BALoadingAnimation. Passes the return value from the selector (if any) through in the callback.
-
-     [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeDefault whileSelector:@selector(makeBigRequestWithURL:) withTarget:self andObject:url runsOnView:self.view withCallback:^(id object) {
-     	
-     	if(object)
-     	{
-     		NSLog(@"object returned from selector");
-     	}
-     	else 
-     	{
-     		NSLog(@"nothing returned from selector");
-     	}
-
-     }];
-
 Blocks
 --------
 
@@ -75,10 +58,12 @@ Any code placed in a BAExecutionBlock will be run asynchronously and wrapped in 
 Custom Loading Animations
 ----------------
 
-To create your own Custom loading animations subclass BAAnimationView and add a BALoadingAnimationType in the BALoadingAnimation.h file. Then update     
-**+(CGRect)frameForAnimationType:(BALoadingAnimationType)animationType**    
+To create your own Custom loading animations subclass BAAnimationView and add a BALoadingAnimationType in the BALoadingAnimation.h file. Then update   
+
+**+(CGRect)frameForAnimationType:(BALoadingAnimationType)animationType**   
 and    
-**+(BAAnimationView *)animationViewForAnimationType:(BALoadingAnimationType)animationType**    
+**+(BAAnimationView *)animationViewForAnimationType:(BALoadingAnimationType)animationType**   
+
 appropriately in BALoadingAnimation.m.  
 
 
