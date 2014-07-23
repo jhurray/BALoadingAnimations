@@ -3,17 +3,17 @@ BALoadingAnimations
 
 **An animated wrapper around asynchronous operations.**
 
-Performs code in blocks and selectors asynchronously while presenting a loading animation.
+Performs code in blocks asynchronously while presenting a loading animation.
 When the work is done, the loading animation is removed from the view.
 
 Styling / Configuration
 --------------
 
 Many loading animations:
-..*Spinner (Default)
-..*Ripple
-..*Wave
-..*Pulse
+* Spinner (Default)
+* Ripple
+* Wave
+* Pulse
 
 BALoadingAnimationConfig class methods change a singleton, which is used as the default configuration for all BALoadingAnimations.
 
