@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "BALoadingAnimations/BALoadingAnimation.m"
-            timestampString = "427604014.340362"
+            timestampString = "427787451.103037"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
             landmarkName = "-initWithFrame:animationView:andBAConfig:"
             landmarkType = "5">
          </BreakpointContent>

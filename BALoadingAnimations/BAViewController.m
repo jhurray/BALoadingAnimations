@@ -74,7 +74,7 @@
     __block NSString *results = @"";
     NSString *url = @"http://www.vacasso.com/api/city/fetchall";
     
-    [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeDefault onView:self.view whileExecuting:^{
+    [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeFlow onView:self.view whileExecuting:^{
         results = [self makeBigRequestWithURL:url];
     } withCompletion:^{
         NSLog(@"\n\n SUCCESS!!! \n\n");
@@ -120,7 +120,7 @@
 -(void)start
 {
     // Only necessary if wishing to add views indefinitely and remove with a button touch
-    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeSpinner toView:self.view];
+    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeFlow toView:self.view];
 }
 
 -(void)end

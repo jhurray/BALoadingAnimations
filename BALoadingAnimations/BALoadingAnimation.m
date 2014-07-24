@@ -14,6 +14,7 @@
 #import "BARippleAnimationView.h"
 #import "BAPulseAnimationView.h"
 #import "BAWaveAnimationView.h"
+#import "BAFlowAnimationView.h"
 #import "BASpinnerAnimationView.h"
 #import "BALoadingAnimation.h"
 
@@ -150,6 +151,9 @@
         case BALoadingAnimationTypeRipple:
             rect = CGRectMake(MARGIN, MARGIN, 80, 80);
             break;
+        case BALoadingAnimationTypeFlow:
+            rect = CGRectMake(MARGIN, MARGIN, 80, 80);
+            break;
         default:
             // should never reach here
             NSLog(@"\n\nBALoadingAnimation Error: incorrect BALoadingAnimationType used in class method.\n\n");
@@ -176,6 +180,9 @@
             break;
         case BALoadingAnimationTypeRipple:
             animationView = [[BARippleAnimationView alloc] initWithFrame:[BALoadingAnimation frameForAnimationType:animationType]];
+            break;
+        case BALoadingAnimationTypeFlow:
+            animationView = [[BAFlowAnimationView alloc] initWithFrame:[BALoadingAnimation frameForAnimationType:animationType]];
             break;
         default:
             // should never reach here

@@ -24,6 +24,7 @@
 		2635A79E19797E570079B9F9 /* BALoadingAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 2635A79D19797E570079B9F9 /* BALoadingAnimation.m */; };
 		2635A7A3197983D10079B9F9 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2635A7A2197983D10079B9F9 /* QuartzCore.framework */; };
 		2635A7A61979861B0079B9F9 /* BAAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2635A7A51979861B0079B9F9 /* BAAnimationView.m */; };
+		26E1E790197F82C80056F5C2 /* BAFlowAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26E1E78F197F82C80056F5C2 /* BAFlowAnimationView.m */; };
 		26FFA39919798815000E9A52 /* BALoadingAnimationConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 26FFA39819798815000E9A52 /* BALoadingAnimationConfig.m */; };
 		26FFA39D197C973C000E9A52 /* BASpinnerAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26FFA39C197C973C000E9A52 /* BASpinnerAnimationView.m */; };
 		26FFA3A0197CAFB5000E9A52 /* BARippleAnimationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 26FFA39F197CAFB5000E9A52 /* BARippleAnimationView.m */; };
@@ -66,6 +67,8 @@
 		2635A7A2197983D10079B9F9 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2635A7A41979861B0079B9F9 /* BAAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAAnimationView.h; sourceTree = "<group>"; };
 		2635A7A51979861B0079B9F9 /* BAAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BAAnimationView.m; sourceTree = "<group>"; };
+		26E1E78E197F82C80056F5C2 /* BAFlowAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BAFlowAnimationView.h; sourceTree = "<group>"; };
+		26E1E78F197F82C80056F5C2 /* BAFlowAnimationView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BAFlowAnimationView.m; sourceTree = "<group>"; };
 		26FFA39719798815000E9A52 /* BALoadingAnimationConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BALoadingAnimationConfig.h; sourceTree = "<group>"; };
 		26FFA39819798815000E9A52 /* BALoadingAnimationConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BALoadingAnimationConfig.m; sourceTree = "<group>"; };
 		26FFA39B197C973C000E9A52 /* BASpinnerAnimationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BASpinnerAnimationView.h; sourceTree = "<group>"; };
@@ -203,6 +206,8 @@
 				26FFA39F197CAFB5000E9A52 /* BARippleAnimationView.m */,
 				26FFA3A4197CB052000E9A52 /* BAWaveAnimationView.h */,
 				26FFA3A5197CB052000E9A52 /* BAWaveAnimationView.m */,
+				26E1E78E197F82C80056F5C2 /* BAFlowAnimationView.h */,
+				26E1E78F197F82C80056F5C2 /* BAFlowAnimationView.m */,
 			);
 			name = "custom animation views";
 			sourceTree = "<group>";
@@ -311,6 +316,7 @@
 				2635A77319797D1B0079B9F9 /* main.m in Sources */,
 				26FFA3A0197CAFB5000E9A52 /* BARippleAnimationView.m in Sources */,
 				2635A77719797D1B0079B9F9 /* BAAppDelegate.m in Sources */,
+				26E1E790197F82C80056F5C2 /* BAFlowAnimationView.m in Sources */,
 				2635A7A61979861B0079B9F9 /* BAAnimationView.m in Sources */,
 				26FFA3A6197CB052000E9A52 /* BAWaveAnimationView.m in Sources */,
 				26FFA39D197C973C000E9A52 /* BASpinnerAnimationView.m in Sources */,
