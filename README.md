@@ -14,6 +14,7 @@ Many loading animations:
 * Ripple
 * Wave
 * Pulse
+* Warp  
 
 BALoadingAnimationConfig class methods change a singleton, which is used as the default configuration for all BALoadingAnimations.
 

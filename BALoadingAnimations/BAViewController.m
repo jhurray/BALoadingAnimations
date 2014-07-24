@@ -10,6 +10,9 @@
 
 @interface BAViewController ()
 
+@property (nonatomic, strong) UISegmentedControl *picker;
+@property BALoadingAnimationType type;
+
 @end
 
 @implementation BAViewController
@@ -20,6 +23,7 @@
 	// Do any additional setup after loading the view, typically from a nib.
     [self.view setBackgroundColor:[UIColor whiteColor]];
     [self setupButtons];
+    [self setupPicker];
 }
 
 -(NSString *)makeBigRequestWithURL:(NSString *)url
@@ -34,13 +38,49 @@
     NSData *oResponseData = [NSURLConnection sendSynchronousRequest:request returningResponse:&responseCode error:&error];
     
     if([responseCode statusCode] != 200){
-        NSLog(@"Error getting %@, HTTP status code %i", url, [responseCode statusCode]);
+        NSLog(@"Error getting %@, HTTP status code %li", url, (long)[responseCode statusCode]);
         //return nil;
     }
     
     NSString *str = [[NSString alloc] initWithData:oResponseData encoding:NSUTF8StringEncoding];
     
     return str;
+}
+
+-(void) setupPicker
+{
+    CGRect frame = self.view.frame;
+    NSArray *items = [NSArray arrayWithObjects:@"Spinner", @"Ripple", @"Pulse", @"Warp" , nil];
+    self.picker = [[UISegmentedControl alloc] initWithItems:items];
+    [self.picker setTintColor:[UIColor colorWithRed:0.610 green:0.175 blue:1.000 alpha:1.000]];
+    [self.picker setFrame:CGRectMake(0, frame.size.height-180, frame.size.width, 50)];
+    [self.picker.layer setBorderColor:self.picker.tintColor.CGColor];
+    [self.picker.layer setBorderWidth:2.5];
+    [self.picker addTarget:self action:@selector(pickerChanged:) forControlEvents:UIControlEventValueChanged];
+    [self.picker setSelectedSegmentIndex:0];
+    [self.view addSubview:self.picker];
+}
+
+-(void)pickerChanged:(UISegmentedControl *)picker
+{
+    switch (picker.selectedSegmentIndex) {
+        case 0:
+            self.type = BALoadingAnimationTypeSpinner;
+            break;
+        case 1:
+            self.type = BALoadingAnimationTypeRipple;
+            break;
+        case 2:
+            self.type = BALoadingAnimationTypePulse;
+            break;
+        case 3:
+            self.type = BALoadingAnimationTypeWarp;
+            break;
+            
+        default:
+            self.type = BALoadingAnimationTypeDefault;
+            break;
+    }
 }
 
 -(void)setupButtons
@@ -74,7 +114,7 @@
     __block NSString *results = @"";
     NSString *url = @"http://www.vacasso.com/api/city/fetchall";
     
-    [BALoadingAnimation runBALoadingAnimation:BALoadingAnimationTypeFlow onView:self.view whileExecuting:^{
+    [BALoadingAnimation runBALoadingAnimation:self.type onView:self.view whileExecuting:^{
         results = [self makeBigRequestWithURL:url];
     } withCompletion:^{
         NSLog(@"\n\n SUCCESS!!! \n\n");
@@ -120,7 +160,9 @@
 -(void)start
 {
     // Only necessary if wishing to add views indefinitely and remove with a button touch
-    [BALoadingAnimation addBALoadingAnimation:BALoadingAnimationTypeFlow toView:self.view];
+    // to rpevent adding more than one
+    [BALoadingAnimation removeBALoadingAnimationFromView:self.view];
+    [BALoadingAnimation addBALoadingAnimation:self.type toView:self.view];
 }
 
 -(void)end

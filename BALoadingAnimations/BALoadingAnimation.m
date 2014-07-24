@@ -151,7 +151,7 @@
         case BALoadingAnimationTypeRipple:
             rect = CGRectMake(MARGIN, MARGIN, 80, 80);
             break;
-        case BALoadingAnimationTypeFlow:
+        case BALoadingAnimationTypeWarp:
             rect = CGRectMake(MARGIN, MARGIN, 80, 80);
             break;
         default:
@@ -181,7 +181,7 @@
         case BALoadingAnimationTypeRipple:
             animationView = [[BARippleAnimationView alloc] initWithFrame:[BALoadingAnimation frameForAnimationType:animationType]];
             break;
-        case BALoadingAnimationTypeFlow:
+        case BALoadingAnimationTypeWarp:
             animationView = [[BAFlowAnimationView alloc] initWithFrame:[BALoadingAnimation frameForAnimationType:animationType]];
             break;
         default:

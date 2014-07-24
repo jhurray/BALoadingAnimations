@@ -26,7 +26,7 @@ typedef NS_ENUM(NSInteger, BALoadingAnimationType)
     BALoadingAnimationTypePulse,
     BALoadingAnimationTypeWave,
     BALoadingAnimationTypeRipple,
-    BALoadingAnimationTypeFlow
+    BALoadingAnimationTypeWarp
 };
 
 @class BALoadingAnimation;
