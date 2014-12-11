@@ -61,9 +61,9 @@
         [self.layer setCornerRadius:8.0];
         
         // get a shadow
-        self.layer.shadowOffset = CGSizeMake(2.5, 2.5);
-        self.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.layer.shadowOpacity = 0.8;        
+        //self.layer.shadowOffset = CGSizeMake(2.5, 2.5);
+        //self.layer.shadowColor = [UIColor blackColor].CGColor;
+        //self.layer.shadowOpacity = 0.8;
         
     }
     return self;
@@ -99,6 +99,15 @@
     [BALoadingAnimation addBALoadingAnimation:animationType toView:superView withStyling:config];
 }
 
++(void)addFadedBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView {
+    UIView *fadeView = [[UIView alloc] initWithFrame:superView.frame];
+    fadeView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.5];
+    fadeView.alpha = 0.333;
+    fadeView.tag = 696969;
+    
+    [superView addSubview:fadeView];
+    [BALoadingAnimation addBALoadingAnimation:animationType toView:superView];
+}
 
 +(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config
 {
@@ -149,7 +158,7 @@
             // todo
             break;
         case BALoadingAnimationTypeRipple:
-            rect = CGRectMake(MARGIN, MARGIN, 80, 80);
+            rect = CGRectMake(MARGIN, MARGIN, 100, 100);
             break;
         case BALoadingAnimationTypeWarp:
             rect = CGRectMake(MARGIN, MARGIN, 80, 80);
@@ -201,6 +210,9 @@
             BALoadingAnimation *loadingAnimation = ((BALoadingAnimation *)subview);
             [loadingAnimation.animationView stopAnimation];
             [loadingAnimation removeFromSuperview];
+        }
+        else if (subview.tag == 696969) {
+            [subview removeFromSuperview];
         }
     }
 }

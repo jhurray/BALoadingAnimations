@@ -41,6 +41,12 @@ typedef void (^BAExecutionBlock)(void);
 +(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView;
 
 
+// Adds a loading animation to a view.
+// Also adds a faded grey mask to superview
+// Should be called before an async operation.
++(void)addFadedBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView;
+
+
 // Adds a loading animation to a view with custom styling.
 // Should be called before an async operation.
 +(void)addBALoadingAnimation:(BALoadingAnimationType)animationType toView:(UIView *)superView withStyling:(BALoadingAnimationConfig *)config;
